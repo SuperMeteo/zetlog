@@ -4,28 +4,82 @@ const User = require("../models/User");
 
 const router = express.Router();
 
+/* =====================
+   GET: Login page
+===================== */
 router.get("/", (req, res) => {
   res.render("login");
 });
 
+/* =====================
+   GET: Register page
+===================== */
 router.get("/register", (req, res) => {
   res.render("register");
 });
 
+/* =====================
+   POST: Register
+===================== */
 router.post("/register", async (req, res) => {
-  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  const { username, email, password } = req.body;
 
-  await User.create({
-    username: req.body.username,
-    email: req.body.email,
-    password: hashedPassword,
-    role: "user" // ค่าเริ่มต้น
-  });
+  try {
+    // 🔍 เช็ก username ซ้ำ
+    const existUsername = await User.findOne({ username });
+    if (existUsername) {
+      return res.render("register", {
+        error: "Username นี้มีผู้ใช้งานแล้ว"
+      });
+    }
 
-  res.redirect("/");
+    // 🔍 เช็ก email ซ้ำ
+    const existEmail = await User.findOne({ email });
+    if (existEmail) {
+      return res.render("register", {
+        error: "Email นี้ถูกใช้ไปแล้ว"
+      });
+    }
+
+    // 🔐 hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // ✅ สร้าง user ใหม่
+    await User.create({
+      username,
+      email,
+      password: hashedPassword,
+      role: "user" // ⭐ role เริ่มต้น
+    });
+
+    // สมัครสำเร็จ → กลับไป login
+    res.redirect("/");
+
+  } catch (err) {
+    // 🛑 กัน MongoDB duplicate (กรณี Atlas)
+    if (err.code === 11000) {
+      if (err.keyPattern?.username) {
+        return res.render("register", {
+          error: "Username นี้มีผู้ใช้งานแล้ว"
+        });
+      }
+      if (err.keyPattern?.email) {
+        return res.render("register", {
+          error: "Email นี้ถูกใช้ไปแล้ว"
+        });
+      }
+    }
+
+    console.error(err);
+    res.render("register", {
+      error: "เกิดข้อผิดพลาด กรุณาลองใหม่"
+    });
+  }
 });
 
-// LOGIN
+/* =====================
+   POST: Login
+===================== */
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -39,7 +93,7 @@ router.post("/login", async (req, res) => {
     return res.render("login", { error: "รหัสผ่านไม่ถูกต้อง" });
   }
 
-  // เก็บข้อมูลลง session
+  // ⭐ เก็บ session
   req.session.userId = user._id;
   req.session.username = user.username;
   req.session.role = user.role;
@@ -52,6 +106,9 @@ router.post("/login", async (req, res) => {
   }
 });
 
+/* =====================
+   Logout
+===================== */
 router.get("/logout", (req, res) => {
   req.session.destroy(() => {
     res.redirect("/");
