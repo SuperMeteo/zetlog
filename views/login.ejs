@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/style.css">
+<script src="/ui.js" defer></script>
 
 <div class="card">
   <h2>🌱 Welcome Back</h2>
@@ -8,10 +9,12 @@
     <div class="error"><%= error %></div>
   <% } %>
 
+  <div class="bg-lines"></div>
+
   <form action="/login" method="post">
     <input name="username" placeholder="Username" required>
-    <input name="password" type="password" placeholder="Password" required>
-    <button>Login</button>
+    <input type="password" name="password" placeholder="Password" required>
+    <button>LOGIN</button>
   </form>
 
   <a href="/register">ยังไม่มีบัญชี? สมัครสมาชิก</a>

@@ -1,192 +1,199 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
 :root {
-  --mint: #7ed7b5;
-  --mint-dark: #4fbf99;
-  --mint-soft: #e8f8f2;
-  --text-dark: #2f4f4f;
-  --bg: #f9fffd;
+  --green: #1fdc8b;
+  --green-soft: rgba(31,220,139,0.4);
+  --bg-white: #f7fffb;
+  --card-bg: rgba(255,255,255,0.85);
 }
 
 * {
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, #e8f8f2 0%, transparent 40%),
-    radial-gradient(circle at bottom right, #d9f4ea 0%, transparent 40%),
-    var(--bg);
+
+  background-image: url("/bg-green.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: #222;
 }
 
-/* ลายการ์ตูน / blob */
-body::before {
-  content: "";
+
+/* ===== Animated green lines background ===== */
+.bg-lines {
   position: fixed;
   inset: 0;
-  background-image:
-    url("https://www.transparenttextures.com/patterns/cubes.png");
-  opacity: 0.05;
-  pointer-events: none;
+  z-index: -1;
+  position: fixed;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 60px,
+      rgba(31,220,139,0.15) 61px,
+      rgba(31,220,139,0.15) 62px
+    );
+  animation: moveLines 12s linear infinite;
 }
 
-/* Card */
+@keyframes moveLines {
+  from { background-position-x: 0; }
+  to   { background-position-x: 600px; }
+}
+
+/* ===== Card ===== */
 .card {
-  background: white;
-  padding: 36px;
-  border-radius: 24px;
-  width: 380px;
+  width: 360px;
+  padding: 32px;
+  background: var(--card-bg);
+  border-radius: 18px;
+  border: 1px solid rgba(0,0,0,0.06);
   box-shadow:
-    0 30px 60px rgba(0,0,0,0.08),
-    inset 0 1px 0 rgba(255,255,255,0.6);
-  animation: fadeUp 0.6s ease;
+    0 20px 40px rgba(0,0,0,0.08),
+    0 0 30px var(--green-soft);
+  backdrop-filter: blur(8px);
+  animation: float 6s ease-in-out infinite;
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
+/* ===== Title ===== */
 h2 {
-  margin: 0 0 20px;
   text-align: center;
-  color: var(--text-dark);
-  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
 }
 
-/* subtitle */
+/* ===== Subtitle ===== */
 .subtitle {
   text-align: center;
   font-size: 13px;
-  color: #6b8f8f;
-  margin-bottom: 20px;
+  opacity: 0.7;
+  margin-bottom: 22px;
 }
 
-/* input */
+/* ===== Inputs ===== */
 input {
   width: 100%;
-  padding: 14px 16px;
-  margin-top: 12px;
-  border-radius: 14px;
-  border: 1px solid #dff1eb;
-  outline: none;
+  padding: 13px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(255,255,255,0.9);
   font-size: 14px;
-  transition: 0.2s;
+  outline: none;
+  transition: 0.25s;
 }
 
 input:focus {
-  border-color: var(--mint);
-  box-shadow: 0 0 0 3px rgba(126,215,181,0.25);
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(31,220,139,0.25);
 }
 
-/* button */
+/* ===== Button ===== */
 button {
-  margin-top: 20px;
   width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, var(--mint), var(--mint-dark));
+  padding: 13px;
+  margin-top: 8px;
+  border-radius: 12px;
   border: none;
-  border-radius: 16px;
-  color: white;
-  font-size: 15px;
+  background: linear-gradient(135deg, #1fdc8b, #4be7a7);
+  color: #fff;
   font-weight: 600;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
   transition: 0.25s;
 }
 
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(126,215,181,0.4);
+  box-shadow: 0 12px 30px rgba(31,220,139,0.45);
 }
 
-/* link */
+/* light sweep */
+button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,255,255,0.6),
+    transparent 60%
+  );
+  transform: translateX(-100%);
+}
+
+button:hover::after {
+  animation: sweep 0.7s ease;
+}
+
+/* ===== Links ===== */
 a {
   display: block;
   margin-top: 16px;
   text-align: center;
-  color: var(--mint-dark);
+  font-size: 13px;
+  color: var(--green);
   text-decoration: none;
-  font-size: 14px;
 }
 
 a:hover {
   text-decoration: underline;
 }
 
-/* USERS PAGE */
-.container {
-  width: 95%;
-  max-width: 1000px;
-}
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  border-radius: 22px;
-  overflow: hidden;
-  box-shadow: 0 25px 45px rgba(0,0,0,0.08);
-}
-
-th, td {
-  padding: 16px 18px;
-  font-size: 14px;
-}
-
-th {
-  background: var(--mint-soft);
-  color: var(--text-dark);
-  font-weight: 600;
-}
-
-tr:nth-child(even) {
-  background: #f6fffb;
-}
-
-.badge {
-  display: inline-block;
-  background: var(--mint);
-  color: white;
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 500;
-  transition: 0.2s;
-}
-
-.badge:hover {
-  background: var(--mint-dark);
-  transform: translateY(-1px);
-}
-
-/* top title */
-.page-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
 .error {
-  background: #ffecec;
-  color: #d64545;
-  padding: 10px;
-  border-radius: 10px;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
   font-size: 13px;
-  margin-bottom: 12px;
   text-align: center;
+
+  color: #0f5132;
+  background: rgba(31, 220, 139, 0.15);
+  border: 1px solid rgba(31, 220, 139, 0.45);
+
+  box-shadow:
+    0 0 10px rgba(31, 220, 139, 0.35),
+    inset 0 0 6px rgba(31, 220, 139, 0.25);
+
+  animation: errorPop 0.45s ease;
 }
-.status-online {
-  color: #00ff9c;              /* เขียวนีออน */
+
+/* ไอคอนเตือนนิด ๆ */
+.error::before {
+  content: "⚠ ";
   font-weight: 600;
-  margin-left: 8px;
-  text-shadow: 
-    0 0 5px rgba(0,255,156,0.8),
-    0 0 10px rgba(0,255,156,0.6),
-    0 0 20px rgba(0,255,156,0.4);
+}
+
+/* animation เวลา error โผล่ */
+@keyframes errorPop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+/* ===== Animations ===== */
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes sweep {
+  to { transform: translateX(100%); }
 }
