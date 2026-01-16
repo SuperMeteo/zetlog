@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="/style.css">
+
+<div class="card">
+  <h2>👤 User Dashboard</h2>
+
+  <div class="welcome">
+    👋 สวัสดี <b><%= session.username %></b>
+    <span class="status-online">● online</span>
+  </div>
+
+  <p><b>Role:</b> <%= session.role %></p>
+  <p><b>Email:</b> <%= user.email %></p>
+
+  <a class="badge" href="/logout">Logout</a>
+</div>

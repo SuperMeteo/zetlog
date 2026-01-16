@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="/style.css">
+
+<div class="container">
+  <div class="page-title">
+    <h2>👥 User Management</h2>
+    <a class="badge" href="/logout">Logout</a>
+  </div>
+
+  <div class="welcome">
+    👋 สวัสดี <b><%= session.username %></b>
+<span class="status-online">● online</span>
+
+  </div>
+
+  <table>
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Action</th>
+    </tr>
+
+    <% users.forEach(u => { %>
+      <tr>
+        <td><%= u.username %></td>
+        <td><%= u.email %></td>
+        <td>
+          <a class="badge" href="/users/edit/<%= u._id %>">Edit</a>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+</div>

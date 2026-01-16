@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="/style.css">
+
+<div class="card">
+  <h2>🌱 Welcome Back</h2>
+  <div class="subtitle">Login เพื่อเข้าสู่ระบบ</div>
+
+  <% if (typeof error !== "undefined") { %>
+    <div class="error"><%= error %></div>
+  <% } %>
+
+  <form action="/login" method="post">
+    <input name="username" placeholder="Username" required>
+    <input name="password" type="password" placeholder="Password" required>
+    <button>Login</button>
+  </form>
+
+  <a href="/register">ยังไม่มีบัญชี? สมัครสมาชิก</a>
+</div>

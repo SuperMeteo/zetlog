@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="/style.css">
+
+<div class="card">
+  <h2>🛠 Edit User</h2>
+
+
+
+  <form method="post">
+    <input name="username" value="<%= user.username %>" required>
+    <input name="email" value="<%= user.email %>" required>
+    <input name="password" placeholder="New password (ไม่จำเป็น)">
+    <button>Save</button>
+  </form>
+
+  <a href="/users">← Back</a>
+</div>
