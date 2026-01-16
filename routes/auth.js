@@ -13,67 +13,17 @@ router.get("/register", (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { username, email, password } = req.body;
-
-  try {
-    // 🔍 เช็กก่อน (เพื่อ UX)
-    const userByUsername = await User.findOne({ username });
-    if (userByUsername) {
-      return res.render("register", {
-        error: "Username นี้มีผู้ใช้งานแล้ว"
-      });
-    }
-
-    const userByEmail = await User.findOne({ email });
-    if (userByEmail) {
-      return res.render("register", {
-        error: "Email นี้ถูกใช้ไปแล้ว"
-      });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    await User.create({
-      username,
-      email,
-      password: hashedPassword,
-      role: "user"
-    });
-
-    res.redirect("/");
-
-  } catch (err) {
-    // 🔥 กัน MongoDB Atlas duplicate
-    if (err.code === 11000) {
-      if (err.keyPattern.username) {
-        return res.render("register", {
-          error: "Username นี้มีผู้ใช้งานแล้ว"
-        });
-      }
-      if (err.keyPattern.email) {
-        return res.render("register", {
-          error: "Email นี้ถูกใช้ไปแล้ว"
-        });
-      }
-    }
-
-    console.error(err);
-    res.render("register", {
-      error: "เกิดข้อผิดพลาด กรุณาลองใหม่"
-    });
-  }
-
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
   await User.create({
-    username,
-    email,
+    username: req.body.username,
+    email: req.body.email,
     password: hashedPassword,
-    role: "user"
+    role: "user" // ค่าเริ่มต้น
   });
 
   res.redirect("/");
 });
-
 
 // LOGIN
 router.post("/login", async (req, res) => {
