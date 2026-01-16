@@ -1,33 +1,35 @@
 <link rel="stylesheet" href="/style.css">
-<script src="/ui.js" defer></script>
 
-<div class="container">
-  <div class="page-title">
-    <h2>👥 User Management</h2>
-    <a class="badge" href="/logout">Logout</a>
-  </div>
+<div class="dashboard">
+  <header class="dash-header">
+    <h1>👥 User Management</h1>
+    <div class="dash-actions">
+      <span class="online">🟢 online</span>
+      <a href="/logout" class="logout">Logout</a>
+    </div>
+  </header>
 
-  <div class="welcome">
-    👋 สวัสดี <b><%= session.username %></b>
-<span class="status-online">● online</span>
-
-  </div>
-
-  <table>
-    <tr>
-      <th>Username</th>
-      <th>Email</th>
-      <th>Action</th>
-    </tr>
-
-    <% users.forEach(u => { %>
+  <table class="user-table">
+    <thead>
       <tr>
-        <td><%= u.username %></td>
-        <td><%= u.email %></td>
-        <td>
-          <a class="badge" href="/users/edit/<%= u._id %>">Edit</a>
-        </td>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Action</th>
       </tr>
-    <% }) %>
+    </thead>
+
+    <tbody>
+      <% users.forEach(user => { %>
+        <tr>
+          <td><%= user.username %></td>
+          <td><%= user.email %></td>
+          <td>
+            <a class="edit-btn" href="/users/edit/<%= user._id %>">
+              ✏ Edit
+            </a>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
   </table>
 </div>
