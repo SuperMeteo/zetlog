@@ -4,7 +4,9 @@
 <div class="card">
   <h2>🛠 Edit User</h2>
 
-
+  <% if (error) { %>
+    <div class="error"><%= error %></div>
+  <% } %>
 
   <form method="post">
     <input name="username" value="<%= user.username %>" required>

@@ -276,7 +276,13 @@ a:hover {
   background: rgba(31,220,139,0.15);
   box-shadow: 0 0 12px rgba(31,220,139,0.4);
 }
-
+.error {
+  background: rgba(255, 99, 99, 0.15);
+  color: #c0392b;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
 /* animation เวลา error โผล่ */
 @keyframes errorPop {
   from {

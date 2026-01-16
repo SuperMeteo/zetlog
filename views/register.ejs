@@ -3,12 +3,17 @@
 
 <div class="card">
   <h2>🌿 Register</h2>
+  <div class="subtitle">สมัครสมาชิก</div>
+
+  <% if (typeof error !== "undefined") { %>
+    <div class="error"><%= error %></div>
+  <% } %>
 
   <form action="/register" method="post">
-    <input name="username" placeholder="Username">
-    <input name="email" placeholder="Email">
-    <input name="password" type="password" placeholder="Password">
-    <button>สมัครสมาชิก</button>
+    <input name="username" placeholder="Username" required>
+    <input name="email" placeholder="Email" required>
+    <input name="password" type="password" placeholder="Password" required>
+    <button>REGISTER</button>
   </form>
 
   <a href="/">กลับไป Login</a>

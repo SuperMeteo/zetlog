@@ -13,17 +13,28 @@ router.get("/register", (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  const { username, email, password } = req.body;
+
+  // 🔍 เช็ก username ซ้ำ (เหมือน login)
+  const existingUser = await User.findOne({ username });
+  if (existingUser) {
+    return res.render("register", {
+      error: "Username นี้มีผู้ใช้งานแล้ว"
+    });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   await User.create({
-    username: req.body.username,
-    email: req.body.email,
+    username,
+    email,
     password: hashedPassword,
-    role: "user" // ค่าเริ่มต้น
+    role: "user"
   });
 
   res.redirect("/");
 });
+
 
 // LOGIN
 router.post("/login", async (req, res) => {
